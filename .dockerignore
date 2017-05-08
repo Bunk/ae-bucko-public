@@ -1,0 +1,6 @@
+.git
+.data
+.vscode
+.DS_Store*
+npm-debug.log
+src
