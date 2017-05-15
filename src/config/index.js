@@ -14,6 +14,8 @@ function loadConfig() {
 	config.pid = process.pid;
 	config.identity = `${ config.machine }.${ config.pid }`;
 
+	console.log( config );
+
 	return config;
 }
 
