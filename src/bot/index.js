@@ -1,17 +1,17 @@
 const logger = require( "./logger" );
-const commands = require( "./commands" );
-const botkit = require( "./startup/botkit" );
 const colors = require( "./colors" );
-const fs = require( "./services/fs" );
-const shell = require( "./services/shell" );
+const commands = require( "./commands" );
+const server = require( "./startup/server" );
+const advice = require( "./services/advice" );
 const git = require( "./services/git" );
+const storage = require( "./services/storage" );
 
 module.exports = ( config, pkg ) => {
 	const app = {
-		config, pkg, fs, colors,
+		config, pkg, colors, advice,
 		log: logger( config ),
 		start() {
-			botkit( app )
+			server( app )
 				.start( commands )
 				.then( () => app.log.info( "Bot started" ) )
 				.catch( err => app.kill( err ) );
@@ -25,7 +25,7 @@ module.exports = ( config, pkg ) => {
 		}
 	};
 
-	app.shell = shell( app );
+	app.storage = storage( app );
 	app.git = git( app );
 
 	return app;
