@@ -1,9 +1,3 @@
-name: Bucko Bot
+name: bucko
 description: Rancher hand for automated deployments @ LeanKit
 avatar: resources/cowboy-fallout.jpg
-config:
-  - name: GITHUB_TOKEN
-  - friendly_name: GitHub access token
-  - info: GitHub token used to manipulate repositories
-  - type: secret
-  - global: false
