@@ -10,6 +10,6 @@ module.exports = {
 		token: process.env.GITHUB_TOKEN || ""
 	},
 	slack: {
-		verificationToken: process.env.SLACK_VERIFICATION_TOKEN || ""
+		verificationToken: process.env.SLACK_VERIFY_TOKEN || ""
 	}
 };
