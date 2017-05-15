@@ -1,7 +1,7 @@
 {
-  "name": "mobile-mobot",
-  "version": "2.1.3",
-  "description": "Mobile squad automation chatops bot",
+  "name": "ae-bucko",
+  "version": "0.0.1",
+  "description": "Rancher hand for deployment automation",
   "private": true,
   "main": "lib/index.js",
   "scripts": {
@@ -20,18 +20,16 @@
     "url": "git+https://github.com/BanditSoftware/mobile-mobot.git"
   },
   "keywords": [
-    "mobot",
     "chatops",
     "bot",
-    "leankit",
-    "mobile"
+    "leankit"
   ],
-  "author": "Mobile Squad",
+  "author": "LeanKit",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/BanditSoftware/mobile-mobot/issues"
+    "url": "https://github.com/BanditSoftware/ae-bucko/issues"
   },
-  "homepage": "https://github.com/BanditSoftware/mobile-mobot#readme",
+  "homepage": "https://github.com/BanditSoftware/ae-bucko#readme",
   "dependencies": {
     "aupair": "^1.1.1",
     "aupair-api": "^1.0.0",
