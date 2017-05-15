@@ -1,7 +1,4 @@
 name: Bucko Bot
-author: LeanKit
-author_avatar: resources/leankit-logo.jpg
-email: support@leankit.com
 description: Rancher hand for automated deployments @ LeanKit
 avatar: resources/cowboy-fallout.jpg
 config:
@@ -10,6 +7,3 @@ config:
   - info: GitHub token used to manipulate repositories
   - type: secret
   - global: false
-slackscopes:
-  - bot
-  - commands
