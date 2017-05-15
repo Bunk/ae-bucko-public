@@ -12,7 +12,7 @@ function loadConfig() {
 	const config = _.defaultsDeep( custom, defaults );
 	config.machine = os.hostname();
 	config.pid = process.pid;
-	config.identity = `${ config.machine }.${ config.name }.${ config.pid }`;
+	config.identity = `${ config.machine }.${ config.pid }`;
 
 	return config;
 }

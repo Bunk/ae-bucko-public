@@ -4,7 +4,11 @@ set -ex
 apk upgrade
 apk update
 
-apk --no-cache add tini git openssh
-npm install -g gulp
+apk --no-cache add tini
 
+npm install
+npm run build
+npm prune --production
+
+# apk del devs
 rm -rf /tmp/*

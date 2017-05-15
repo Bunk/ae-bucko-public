@@ -1,22 +1,18 @@
 const aupair = require( "aupair" );
 const humanize = require( "humanize-duration" );
 
-module.exports = ( { config, colors, log, pkg, controller } ) => {
-	controller.hears(
-		[ /(status|uptime)(\?)?$/i ],
-		"direct_message,direct_mention,mention",
-		async ( bot, message ) => {
-			const hostname = config.identity;
-			const uptime = humanize( process.uptime() * 1000 ); // eslint-disable-line no-magic-numbers
-			const status = await aupair.check();
-			bot.reply( message, {
-				fallback: `${ bot.identity.name } v${ pkg.version } ${ transformState( status ) }`,
+module.exports = ( { config, colors, log, pkg, slapp } ) => {
+	slapp.message( /(status|uptime)(\?)?$/i, [ "direct_message", "mention" ], ( msg ) => {
+		const hostname = config.identity;
+		const uptime = humanize( process.uptime() * 1000 ); // eslint-disable-line no-magic-numbers
+
+		aupair.check().then( status => {
+			msg.say( {
+				text: `*v${ pkg.version }* — ${ transformMessage( status ) }`,
+				fallback: `v${ pkg.version } Status: ${ transformState( status ) }`,
 				attachments: [ {
 					mrkdwn_in: [ "text" ], // eslint-disable-line camelcase
 					color: transformColor( status ),
-					title: `${ bot.identity.name } v${ pkg.version }`,
-					fallback: `${ bot.identity.name } v${ pkg.version } Status: ${ transformState( status ) }`,
-					text: transformMessage( status ),
 					fields: [
 						{ title: "Uptime", value: uptime, short: true },
 						{ title: "Host", value: hostname, short: true },
@@ -25,6 +21,7 @@ module.exports = ( { config, colors, log, pkg, controller } ) => {
 				} ]
 			} );
 		} );
+	} );
 
 	function transformColor( status ) {
 		if ( status.degraded ) {

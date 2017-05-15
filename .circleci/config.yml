@@ -1,0 +1,14 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: bunk/node-circleci:6-alpine
+    working_directory: ~/app
+    steps:
+      - checkout
+
+      - setup_remote_docker
+
+      # build and push Docker image
+      - run: |
+          docker build -t bunk/ae-bucko:latest .

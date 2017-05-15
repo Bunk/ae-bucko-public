@@ -1,5 +1,5 @@
 FROM node:6-alpine
-MAINTAINER Mobile Squad
+MAINTAINER LeanKit
 
 ENV APP_PATH /app
 
