@@ -1,6 +1,7 @@
 .git
-.data
 .vscode
 .DS_Store*
+config.js
 npm-debug.log
-src
+lib
+node_modules
