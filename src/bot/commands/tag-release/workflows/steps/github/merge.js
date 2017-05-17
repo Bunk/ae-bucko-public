@@ -1,5 +1,4 @@
-module.exports = ( app ) => {
-	const { git } = app;
+module.exports = ( app, git ) => {
 	return {
 		openPullRequest: ( refFn ) => async function openPullRequest( state ) {
 			const ref = refFn( state );

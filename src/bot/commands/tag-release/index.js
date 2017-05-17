@@ -11,7 +11,7 @@ module.exports = ( app ) => {
 		msg.respond( `:sweat: Woops!  \`${ err.message }\`\n\`\`\`${ err.stack }\`\`\`` );
 	}
 
-	slapp.command( "/bucko", "create release (.*)/([^\\s]+)(.*)", ( msg, text, repoUser, repoName, opt ) => {
+	slapp.command( "/bucko", "create release ([^\\s/]*)/([^\\s/]+)(.*)", ( msg, text, repoUser, repoName, opt ) => {
 		const params = opt.trim();
 		const { name, log, base, head } = yargs( params );
 

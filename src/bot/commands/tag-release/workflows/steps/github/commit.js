@@ -1,5 +1,4 @@
-module.exports = ( app ) => {
-	const { git } = app;
+module.exports = ( app, git ) => {
 	return {
 		stageFile: ( pathFn ) => async function stageFile( state ) {
 			const path = pathFn( state );

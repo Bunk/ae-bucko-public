@@ -1,7 +1,6 @@
 const semver = require( "semver" );
 
-module.exports = ( app ) => {
-	const { git } = app;
+module.exports = ( app, git ) => {
 	return {
 		async getLatestVersion( state ) {
 			try {
@@ -11,7 +10,7 @@ module.exports = ( app ) => {
 			} catch ( err ) {
 				// We couldn't find a release, so let's use what's in the package.json on the base branch
 				const config = JSON.parse( state.files[ state.filePaths.package ] );
-				state.refs.current = `heads/${ state.branches.head }`;
+				state.refs.current = `heads/${ state.branches.base }`;
 				state.versions.latest = semver.clean( config.version );
 			}
 		},

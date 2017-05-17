@@ -1,5 +1,4 @@
-module.exports = ( app ) => {
-	const { git } = app;
+module.exports = ( app, git ) => {
 	return {
 		validateBranch: ( fn ) => async function validateBranch( state ) {
 			const branch = fn( state );

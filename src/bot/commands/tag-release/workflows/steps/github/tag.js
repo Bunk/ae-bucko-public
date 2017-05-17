@@ -1,5 +1,4 @@
-module.exports = ( app ) => {
-	const { git } = app;
+module.exports = ( app, git ) => {
 	return {
 		tagVersion: ( refFn ) => async function tagVersion( state ) {
 			const ref = refFn( state );

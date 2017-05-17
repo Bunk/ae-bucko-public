@@ -1,5 +1,5 @@
-module.exports = ( app ) => {
-	const { git, log } = app;
+module.exports = ( app, git ) => {
+	const { log } = app;
 	return {
 		fetchContents: ( pathFn, refFn ) => async function fetchContents( state ) {
 			const path = pathFn( state );
