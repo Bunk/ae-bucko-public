@@ -1,5 +1,9 @@
 ## 1.x
 
+### 1.0.1
+
+* Added some debug info
+
 ### 1.0.0
 
 * Added a bot background image
