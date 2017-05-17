@@ -1,5 +1,9 @@
 ## 1.x
 
+### 1.0.2
+
+* Reducing the footprint
+
 ### 1.0.1
 
 * Added some debug info
