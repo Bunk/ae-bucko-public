@@ -1,6 +1,7 @@
 name: bucko
 description: Rancher hand for automated deployments @ LeanKit
 avatar: resources/cowboy-fallout.jpg
+background: resources/background.jpg
 config:
   - name: GITHUB_TOKEN
     friendly_name: GitHub auth token
