@@ -6,6 +6,4 @@ config:
   - name: GITHUB_TOKEN
     info: This is a unique GitHub access token for the user the bot is spoofing
     type: secret
-    global: false
   - name: LOG_LEVEL
-    global: false
