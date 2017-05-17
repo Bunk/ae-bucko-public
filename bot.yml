@@ -8,6 +8,4 @@ config:
     type: secret
     global: false
   - name: LOG_LEVEL
-    default: info
-    type: text
     global: false
