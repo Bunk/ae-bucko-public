@@ -1,5 +1,9 @@
 ## 1.x
 
+### 1.1.0
+
+* Make github keys available by team
+
 ### 1.0.5
 
 * Make the github key a team setting
