@@ -13,7 +13,7 @@
             "args": [],
             "stopOnEntry": false,
             "preLaunchTask": "build",
-            "protocol": "inspector",
+            // "protocol": "inspector",
             "runtimeExecutable": "${workspaceRoot}/.vscode/bunyan.sh",
             "runtimeArgs": [
                 "--nolazy"

@@ -1,29 +1,31 @@
 module.exports = ( app ) => {
 	const { git } = app;
 	return {
-		async openPullRequest( state ) {
-			const { number } = await git.repos( state.repo.user, state.repo.name ).pulls.create( {
-				title: `tag-release: ${ state.currentBranch }`,
-				head: state.currentBranch,
-				base: "develop"
+		openPullRequest: ( refFn ) => async function openPullRequest( state ) {
+			const ref = refFn( state );
+			const repo = git.repos( state.repo.user, state.repo.name );
+			const { number } = await repo.pulls.create( {
+				title: `tag-release: ${ state.branches.current }`,
+				head: ref, // "pr-branch"
+				base: state.branches.head // "develop"
 			} );
-			state.currentPullRequest = number;
+			state.pr = number;
 		},
-		async closePullRequest( state ) {
-			if ( state.currentPullRequest ) {
-				await git.repos( state.repo.user, state.repo.name ).pulls( state.currentPullRequest ).update( {
-					state: "closed"
-				} );
+		closePullRequest: async function closePullRequest( state ) {
+			const repo = git.repos( state.repo.user, state.repo.name );
+			if ( state.pr ) {
+				await repo.pulls( state.pr ).update( { state: "closed" } );
 			}
 		},
-		mergePullRequest: ( method = "merge" ) => async ( state ) => {
+		mergePullRequest: ( method = "merge" ) => async function mergePullRequest( state ) {
 			const repo = git.repos( state.repo.user, state.repo.name );
-			const { sha } = await repo.pulls( state.currentPullRequest ).merge.add( { merge_method: method } );
-			state.currentHead = sha;
+			const { sha } = await repo.pulls( state.pr ).merge.add( { merge_method: method } );
+			state.refs.current = sha;
 		},
-		mergeFastForward: ( ref ) => async ( state ) => {
+		mergeFastForward: ( branchFn ) => async function mergeFastForward( state ) {
+			const branch = branchFn( state );
 			const repo = git.repos( state.repo.user, state.repo.name );
-			await repo.git.refs( ref ).update( { sha: state.currentHead } );
+			await repo.git.refs( `heads/${ branch }` ).update( { sha: state.refs.current } );
 		}
 	};
 };

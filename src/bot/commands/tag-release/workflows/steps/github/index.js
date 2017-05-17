@@ -7,19 +7,11 @@ module.exports = ( app ) => {
 			try {
 				await git.repos( state.repo.user, state.repo.name ).fetch();
 			} catch ( err ) {
-				throw new Error( `Unable to find repository: ${ state.repository }` );
+				const repository = `${ state.repo.user }/${ state.repo.name }`;
+				throw new Error( `Unable to find repository '${ repository }'.  Make sure it's spell correctly and that you have access.` );
 			}
 		},
-		async getShortLog( state ) {
-			const { commits } = await git.repos( state.repo.user, state.repo.name )
-				.compare( state.lastVersionTag, "develop" ).fetch();
-
-			const log = commits
-				.filter( obj => obj.parents.length === 1 ) // non-merge commits
-				.map( obj => `* ${ obj.commit.message }` );
-
-			state.defaultLog = log;
-		},
+		...require( "./content" )( app ),
 		...require( "./branch" )( app ),
 		...require( "./commit" )( app ),
 		...require( "./merge" )( app ),

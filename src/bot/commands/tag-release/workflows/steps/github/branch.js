@@ -1,15 +1,21 @@
 module.exports = ( app ) => {
 	const { git } = app;
 	return {
-		validateBranch: ( branch ) => ( state ) => {
-			return git.repos( state.repo.user, state.repo.name ).branches.contains( branch );
+		validateBranch: ( fn ) => async function validateBranch( state ) {
+			const branch = fn( state );
+			const repo = git.repos( state.repo.user, state.repo.name );
+			const val = await repo.branches.contains( branch );
+			if ( !val ) {
+				throw new Error( `The repository does not contain a '${ branch }' branch.` );
+			}
 		},
-		branchFrom: ( baseRef ) => async ( state ) => {
-			const branch = `auto-tag-${ state.currentVersion }`;
+		branchFrom: ( refFn ) => async function branchFrom( state ) {
+			const ref = refFn( state );
+			const branch = `auto-tag-${ state.versions.current }`;
 			const repo = git.repos( state.repo.user, state.repo.name );
 
 			// (1) Get the base commit sha
-			const { object: { sha: commitSha } } = await repo.git.refs( `heads/${ baseRef }` ).fetch();
+			const { object: { sha: commitSha } } = await repo.git.refs( `${ ref }` ).fetch();
 
 			// (2) See if the branch already exists
 			const exists = await repo.git.refs.contains( `heads/${ branch }` );
@@ -22,12 +28,13 @@ module.exports = ( app ) => {
 				await repo.git.refs( `heads/${ branch }` ).update( { sha: commitSha } );
 			}
 
-			state.currentBranch = branch;
-			state.currentHead = commitSha;
+			state.branches.current = branch;
+			state.refs.current = commitSha;
 		},
-		async deleteBranch( state ) {
-			if ( state.currentBranch ) {
-				const ref = `heads/${ state.currentBranch }`;
+		deleteBranch: ( fn ) => async function deleteBranch( state ) {
+			const branch = fn( state );
+			if ( branch ) {
+				const ref = `heads/${ branch }`;
 				const repo = git.repos( state.repo.user, state.repo.name );
 				// (1) See if the branch still exists
 				const found = await repo.git.refs.contains( ref );

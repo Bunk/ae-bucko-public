@@ -13,29 +13,51 @@ module.exports = ( app ) => {
 
 	slapp.command( "/bucko", "create release (.*)/([^\\s]+)(.*)", ( msg, text, repoUser, repoName, opt ) => {
 		const params = opt.trim();
-		const { name, log } = yargs( params );
+		const { name, log, base, head } = yargs( params );
 
 		const state = {
 			id: `${ msg.meta.team_id }|tagrelease|${ uuidV4() }`,
 			teamId: msg.meta.team_id,
 			channelId: msg.meta.channel_id,
 			authorId: msg.meta.user_id,
-			command: "/bucko create release",
-			repo: { user: repoUser, name: repoName },
-			get repository() {
-				return `${ this.repo.user }/${ this.repo.name }`;
+			command: {
+				name: "/bucko create release",
+				opts: opt
 			},
-			configPath: "package.json",
-			changeLogPath: "CHANGELOG.md",
-			currentRef: "heads/master"
+			repo: { user: repoUser, name: repoName },
+			versions: {
+				latest: undefined,
+				current: undefined
+			},
+			branches: {
+				base: "master",
+				head: "develop"
+			},
+			filePaths: {
+				package: "package.json",
+				changeLog: "CHANGELOG.md"
+			},
+			refs: {},
+			defaults: {},
+			answers: {},
+			files: {},
+			staged: []
 		};
 
+		if ( base && base.length ) {
+			state.branches.base = base;
+		}
+
+		if ( head && head.length ) {
+			state.branches.head = head;
+		}
+
 		if ( name && name.length ) {
-			state.confirmedReleaseName = name;
+			state.answers.releaseName = name;
 		}
 
 		if ( log && log.length ) {
-			state.confirmedLog = log.split( "," ).map( n => `* ${ n.trim() }` );
+			state.answers.releaseLog = log.split( "," ).map( n => `* ${ n.trim() }` );
 		}
 
 		workflow
@@ -48,7 +70,7 @@ module.exports = ( app ) => {
 		return ( state ) => {
 			msg.respond(
 				`If you want to specify ${ context }, you'll need to specify it as a part of the command (for now):\n\n` +
-				`\`\`\`${ state.command } ${ state.repository } ${ text }\`\`\``
+				`\`\`\`${ state.command.name } ${ state.repo.user }/${ state.repo.name } ${ text }\`\`\``
 			);
 		};
 	}
@@ -57,7 +79,7 @@ module.exports = ( app ) => {
 		const { id, value } = JSON.parse( data );
 		if ( value === "confirm" ) {
 			workflow.lookup( id )
-				.then( api => api.update( state => ( state.confirmedLog = state.defaultLog ) ) )
+				.then( api => api.update( state => ( state.answers.releaseLog = state.defaults.releaseLog ) ) )
 				.then( api => api.resume( msg ) )
 				.catch( err => onError( err, msg ) );
 		} else {
@@ -75,7 +97,7 @@ module.exports = ( app ) => {
 		const { id, value } = JSON.parse( data );
 		if ( value === "confirm" ) {
 			workflow.lookup( id )
-				.then( api => api.update( state => ( state.confirmedReleaseName = state.defaultReleaseName ) ) )
+				.then( api => api.update( state => ( state.answers.releaseName = state.defaults.releaseName ) ) )
 				.then( api => api.resume( msg ) )
 				.catch( err => onError( err, msg ) );
 		} else {
@@ -92,7 +114,7 @@ module.exports = ( app ) => {
 	slapp.action( "tag-release", "confirm_version_bump", ( msg, data ) => {
 		const { id, value } = JSON.parse( data );
 		workflow.lookup( id )
-			.then( api => api.update( state => ( state.confirmedVersionBump = value ) ) )
+			.then( api => api.update( state => ( state.answers.versionBump = value ) ) )
 			.then( api => api.resume( msg ) )
 			.catch( err => onError( err, msg ) );
 	} );
@@ -102,7 +124,7 @@ module.exports = ( app ) => {
 
 		let flow = workflow.lookup( id );
 		if ( value === "confirm" ) {
-			flow = flow.then( api => api.update( state => ( state.confirmedRelease = true ) ) );
+			flow = flow.then( api => api.update( state => ( state.answers.releaseConfirmed = true ) ) );
 		} else {
 			flow = flow.then( api => api.update( state => ( state.cancelled = true ) ) );
 		}
