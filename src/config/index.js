@@ -8,7 +8,7 @@ function loadConfig() {
 	const customConfigPath = path.resolve( "./config.js" );
 	const custom = fs.existsSync( customConfigPath ) ? require( customConfigPath ) : {};
 	const defaults = require( "./defaults.js" );
-	console.log( process.env );
+	console.log( { LOG_LEVEL: process.env.LOG_LEVEL } );
 	console.log( defaults );
 
 	const config = _.defaultsDeep( custom, defaults );

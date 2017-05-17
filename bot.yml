@@ -4,10 +4,10 @@ avatar: resources/cowboy-fallout.jpg
 background: resources/background.jpg
 config:
   - name: GITHUB_TOKEN
-    friendly_name: GitHub auth token
+    info: This is a unique GitHub access token for the user the bot is spoofing
     type: secret
     global: false
   - name: LOG_LEVEL
-    friendly_name: Logging level
     default: info
+    type: text
     global: false
