@@ -1,5 +1,9 @@
 ## 1.x
 
+### 1.0.5
+
+* Make the github key a team setting
+
 ### 1.0.4
 
 * Trying to fix the configuration issue with BeepBoop
