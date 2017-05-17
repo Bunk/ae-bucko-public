@@ -1,5 +1,9 @@
 ## 1.x
 
+### 1.0.3
+
+* Fix LOG_LEVEL configuration
+
 ### 1.0.2
 
 * Reducing the footprint
