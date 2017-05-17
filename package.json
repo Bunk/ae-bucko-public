@@ -1,6 +1,6 @@
 {
   "name": "ae-bucko",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Rancher hand for deployment automation",
   "private": true,
   "main": "lib/index.js",
