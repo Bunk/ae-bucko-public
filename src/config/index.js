@@ -8,6 +8,8 @@ function loadConfig() {
 	const customConfigPath = path.resolve( "./config.js" );
 	const custom = fs.existsSync( customConfigPath ) ? require( customConfigPath ) : {};
 	const defaults = require( "./defaults.js" );
+	console.log( process.env );
+	console.log( defaults );
 
 	const config = _.defaultsDeep( custom, defaults );
 	config.machine = os.hostname();
