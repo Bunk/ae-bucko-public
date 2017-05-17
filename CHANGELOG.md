@@ -1,5 +1,9 @@
 ## 1.x
 
+### 1.0.4
+
+* Trying to fix the configuration issue with BeepBoop
+
 ### 1.0.3
 
 * Fix LOG_LEVEL configuration
