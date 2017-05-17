@@ -1,9 +1,9 @@
 module.exports = ( { slapp } ) => ( msg ) => {
 	return {
-		ask: ( question ) => ( state ) => {
+		ask: ( question ) => function ask( state ) {
 			msg.respond( question( state ) );
 		},
-		say: ( fn, { deleteOriginal = false } = {} ) => ( state ) => {
+		say: ( fn, { deleteOriginal = false } = {} ) => function say( state ) {
 			msg.say( fn( state ) );
 			if ( deleteOriginal ) {
 				msg.respond( { delete_original: true } );

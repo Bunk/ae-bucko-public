@@ -22,7 +22,7 @@ module.exports = {
 		return {
 			attachments: [ {
 				pretext: "Here is a preview of your release name:",
-				text: preformatted( state.defaultReleaseName ),
+				text: preformatted( state.defaults.releaseName ),
 				mrkdwn_in: [ "text" ],
 				callback_id: "tag-release",
 				actions: [
@@ -36,7 +36,7 @@ module.exports = {
 		return {
 			attachments: [ {
 				pretext: "Here is a preview of your release change log:",
-				text: preformatted( state.defaultLog.join( "\n" ) ),
+				text: preformatted( state.defaults.releaseLog.join( "\n" ) ),
 				mrkdwn_in: [ "text" ],
 				callback_id: "tag-release",
 				actions: [
@@ -50,14 +50,14 @@ module.exports = {
 		return {
 			attachments: [ {
 				pretext: "Please confirm this release:",
-				title: state.confirmedReleaseName,
+				title: state.answers.releaseName,
 				footer: `@${ state.author.name }`,
 				footer_icon: state.author.icon,
 				mrkdwn_in: [ "pretext", "fields" ],
 				fields: [
-					{ value: preformatted( state.confirmedLog.join( "\n" ) ) },
-					{ title: "Project", value: state.repository, short: true },
-					{ title: "Version", value: state.currentVersion, short: true }
+					{ value: preformatted( state.answers.releaseLog.join( "\n" ) ) },
+					{ title: "Project", value: `${ state.repo.user }/${ state.repo.name }`, short: true },
+					{ title: "Version", value: state.versions.current, short: true }
 				],
 				callback_id: "tag-release",
 				actions: [
@@ -72,15 +72,15 @@ module.exports = {
 			text: "Release created:",
 			attachments: [ {
 				color: "#93c540",
-				title: `${ state.confirmedReleaseName }`,
-				title_link: state.releaseUrl,
+				title: `${ state.release.name }`,
+				title_link: state.release.url,
 				footer: `@${ state.author.name }`,
 				footer_icon: state.author.icon,
 				mrkdwn_in: [ "title", "fields" ],
 				fields: [
-					{ value: preformatted( state.confirmedLog.join( "\n" ) ), short: false },
-					{ title: "Project", value: state.repository, short: true },
-					{ title: "Version", value: state.currentVersion, short: true }
+					{ value: preformatted( state.release.body ), short: false },
+					{ title: "Project", value: `${ state.repo.user }/${ state.repo.name }`, short: true },
+					{ title: "Version", value: state.versions.current, short: true }
 				],
 				ts: Math.round( Date.now() / 1000 )
 			} ]

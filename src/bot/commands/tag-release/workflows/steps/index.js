@@ -10,14 +10,12 @@ module.exports = ( app ) => {
 		slack: slackSteps( app ),
 		files: fileSteps( app ),
 		bumpVersion( state ) {
-			const { lastVersion, confirmedVersionBump } = state;
-			const bumped = semver.inc( lastVersion, confirmedVersionBump );
+			const { versions: { latest }, answers: { versionBump } } = state;
+			const bumped = semver.inc( latest, versionBump );
 			if ( !bumped ) {
-				throw new Error( `Couldn't bump version '${ lastVersion }' as a ${ confirmedVersionBump } release` );
+				throw new Error( `Couldn't bump version '${ latest }' as a ${ versionBump } release` );
 			}
-
-			state.currentVersion = bumped;
-			state.currentVersionTag = `v${ bumped }`;
+			state.versions.current = bumped;
 		},
 		storeState( state ) {
 			return storage.set( state.id, state );
