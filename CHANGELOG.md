@@ -1,5 +1,9 @@
 ## 1.x
 
+### 1.1.1
+
+* Update README.md
+
 ### 1.1.0
 
 * Make github keys available by team
