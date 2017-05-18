@@ -1,2 +1,2 @@
-# mobile-mobot
-Mobile squad's deployment pipeline chatops bot
+# ae-bucko
+LeanKit automation engineer's deployment pipeline chatops bot
