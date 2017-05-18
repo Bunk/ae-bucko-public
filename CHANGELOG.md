@@ -1,5 +1,9 @@
 ## 1.x
 
+### 1.1.2
+
+* Grab commit sha's through the /commit API
+
 ### 1.1.1
 
 * Update README.md
