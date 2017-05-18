@@ -14,7 +14,8 @@ module.exports = ( app, git ) => {
 			const repo = git.repos( state.repo.user, state.repo.name );
 
 			// (1) Get the base commit sha
-			const { object: { sha: commitSha } } = await repo.git.refs( `${ ref }` ).fetch();
+			// const { object: { sha: commitSha } } = await repo.git.refs( `${ ref }` ).fetch();
+			const { sha: commitSha } = await repo.commits( `refs/${ ref }` ).fetch();
 
 			// (2) See if the branch already exists
 			const exists = await repo.git.refs.contains( `heads/${ branch }` );
