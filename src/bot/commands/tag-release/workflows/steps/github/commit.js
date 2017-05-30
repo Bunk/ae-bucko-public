@@ -10,7 +10,7 @@ module.exports = ( app, git ) => {
 		async commitStaged( state ) {
 			const repo = git.repos( state.repo.user, state.repo.name );
 
-			// (1) Get the ref for the base commit we're branching off of
+			// (1) Get the ref for the head commit we're branching off of
 			const workingRef = `heads/${ state.branches.current }`;
 			const workingSha = state.refs.current;
 			// (2) Get the ref for the tree we're going to update

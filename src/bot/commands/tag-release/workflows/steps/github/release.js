@@ -5,21 +5,21 @@ module.exports = ( app, git ) => {
 		async getLatestVersion( state ) {
 			try {
 				const { tagName } = await git.repos( state.repo.user, state.repo.name ).releases.latest.fetch();
-				state.refs.current = `tags/${ tagName }`;
 				state.versions.latest = semver.clean( tagName );
+				state.branches.version = tagName;
 			} catch ( err ) {
 				// We couldn't find a release, so let's use what's in the package.json on the base branch
 				const config = JSON.parse( state.files[ state.filePaths.package ] );
-				state.refs.current = `heads/${ state.branches.base }`;
 				state.versions.latest = semver.clean( config.version );
+				state.branches.version = state.branches.base;
 			}
 		},
 		async getDefaultReleaseName( state ) {
 			state.defaults.releaseName = state.answers.releaseLog.slice().pop().replace( "* ", "" );
 		},
 		async getDefaultReleaseLog( state ) {
-			const base = state.refs.current.split( "/" )[ 1 ]; // current-release-tag || master
-			const head = state.branches.head; // develop || head
+			const base = state.branches.version;
+			const head = state.branches.head;
 			const repo = git.repos( state.repo.user, state.repo.name );
 			try {
 				const { commits } = await repo.compare( base, head ).fetch();
@@ -39,7 +39,7 @@ module.exports = ( app, git ) => {
 		},
 		async validateDefaultReleaseLog( state ) {
 			if ( !state.defaults.releaseLog.length ) {
-				const base = state.refs.current.split( "/" )[ 1 ];
+				const base = state.branches.version;
 				const head = state.branches.head;
 				throw new Error( `There are no commits between '${ base }' and '${ head }' to tag.` );
 			}

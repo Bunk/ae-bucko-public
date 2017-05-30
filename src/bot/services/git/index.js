@@ -34,7 +34,7 @@ module.exports = ( { config, advice } ) => {
 	}
 
 	function getToken( msg ) {
-		return msg.meta.config.GITHUB_TOKEN || config.github.token;
+		return config.github.token || msg.meta.config.GITHUB_TOKEN;
 	}
 
 	return ( msg ) => {

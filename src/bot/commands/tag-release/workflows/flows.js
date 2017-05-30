@@ -40,7 +40,7 @@ module.exports = ( app ) => {
 			steps.files.updateChangeLog,
 			steps.github( msg ).stageFile( state => state.filePaths.package ),
 			steps.github( msg ).stageFile( state => state.filePaths.changeLog ),
-			steps.github( msg ).branchFrom( state => state.refs.current ),
+			steps.github( msg ).branchFrom( state => `heads/${ state.branches.head }` ),
 			steps.github( msg ).commitStaged,
 			steps.github( msg ).openPullRequest( state => state.branches.current ),
 			steps.github( msg ).mergePullRequest( "rebase" ),

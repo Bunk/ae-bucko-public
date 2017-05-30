@@ -7,9 +7,9 @@ module.exports = {
 		level: process.env.LOG_LEVEL || "info"
 	},
 	github: {
-		token: process.env.GITHUB_TOKEN || ""
+		token: process.env.GITHUB_TOKEN || undefined
 	},
 	slack: {
-		verificationToken: process.env.SLACK_VERIFY_TOKEN || ""
+		verificationToken: process.env.SLACK_VERIFY_TOKEN || undefined
 	}
 };

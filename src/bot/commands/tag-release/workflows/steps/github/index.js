@@ -3,11 +3,25 @@ module.exports = ( app ) => ( msg ) => {
 	const git = app.git( msg );
 	return {
 		async validateAccess( state ) {
+			const repository = `${ state.repo.user }/${ state.repo.name }`;
+			const repo = git.repos( state.repo.user, state.repo.name );
 			try {
-				await git.repos( state.repo.user, state.repo.name ).fetch();
+				const user = await git.user.fetch();
+				state.repo.userObj = user;
 			} catch ( err ) {
-				const repository = `${ state.repo.user }/${ state.repo.name }`;
+				throw new Error( "Unable to authorize with the current GitHub token" );
+			}
+
+			try {
+				await repo.fetch();
+			} catch ( err ) {
 				throw new Error( `Unable to find repository '${ repository }'.  Make sure it's spelled correctly and that you have access.` );
+			}
+
+			try {
+				await repo.collaborators.fetch();
+			} catch ( err ) {
+				throw new Error( `You don't have push access to '${ repository }'` );
 			}
 		},
 		...require( "./content" )( app, git ),
