@@ -1,5 +1,9 @@
 ## 1.x
 
+### 1.2.0
+
+* Fix the base ref when merging.  Better messages when you don't have access to the repo
+
 ### 1.1.2
 
 * Grab commit sha's through the /commit API
