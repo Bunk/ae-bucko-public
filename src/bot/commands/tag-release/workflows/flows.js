@@ -47,7 +47,7 @@ module.exports = ( app ) => {
 			steps.github( msg ).mergeFastForward( state => state.branches.base ),
 			steps.github( msg ).tagVersion,
 			steps.github( msg ).createRelease,
-			steps.github( msg ).deleteBranch,
+			steps.github( msg ).deleteBranch( state => state.branches.current ),
 			steps.deleteState,
 			steps.slack( msg ).say( questions.released, { deleteOriginal: true } )
 		],
