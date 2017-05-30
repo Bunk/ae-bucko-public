@@ -1,5 +1,9 @@
 ## 1.x
 
+### 1.2.1
+
+* Support deleting the branch after merging the PR
+
 ### 1.2.0
 
 * Fix the base ref when merging.  Better messages when you don't have access to the repo
