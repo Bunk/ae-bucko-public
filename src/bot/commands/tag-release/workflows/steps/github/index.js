@@ -19,7 +19,7 @@ module.exports = ( app ) => ( msg ) => {
 			}
 
 			try {
-				await repo.collaborators.fetch();
+				await repo.collaborators( state.repo.userObj.login ).fetch();
 			} catch ( err ) {
 				throw new Error( `You don't have push access to '${ repository }'` );
 			}
