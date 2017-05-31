@@ -1,5 +1,10 @@
 ## 1.x
 
+### 1.2.2
+
+* Better API call for the collaborator check
+* Add some docs for 'create release'
+
 ### 1.2.1
 
 * Support deleting the branch after merging the PR
